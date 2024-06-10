@@ -82,6 +82,132 @@
             },
             "indexes": []
         },
+        "products": {
+            "tableName": "products",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "category": {
+                    "allowNull": false,
+                    "field": "category",
+                    "seqType": "Sequelize.STRING"
+                },
+                "productName": {
+                    "allowNull": false,
+                    "field": "productName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "currentQuantity": {
+                    "allowNull": false,
+                    "field": "currentQuantity",
+                    "seqType": "Sequelize.STRING"
+                },
+                "marchantId": {
+                    "allowNull": true,
+                    "field": "marchantId",
+                    "references": {
+                        "model": "marchants",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "productImages": {
+            "tableName": "productImages",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "imageUrl": {
+                    "allowNull": false,
+                    "field": "imageUrl",
+                    "seqType": "Sequelize.STRING"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "field": "productId",
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "pricings": {
+            "tableName": "pricings",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "quantity": {
+                    "allowNull": false,
+                    "field": "quantity",
+                    "seqType": "Sequelize.STRING"
+                },
+                "price": {
+                    "allowNull": false,
+                    "field": "price",
+                    "seqType": "Sequelize.DECIMAL(10, 2)"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "field": "productId",
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
         "marchant_otp_verifications": {
             "tableName": "marchant_otp_verifications",
             "schema": {
@@ -120,5 +246,5 @@
     "path": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current.json",
     "backupPath": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 2
+    "revision": 4
 }
