@@ -1,0 +1,124 @@
+{
+    "tables": {
+        "marchants": {
+            "tableName": "marchants",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "email": {
+                    "allowNull": false,
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "phone": {
+                    "allowNull": false,
+                    "field": "phone",
+                    "seqType": "Sequelize.STRING"
+                },
+                "firstName": {
+                    "allowNull": false,
+                    "min": [
+                        10,
+                        "First Name Must not be less than 10 characters"
+                    ],
+                    "max": [
+                        100,
+                        "First Name Must not exceed 100 characters"
+                    ],
+                    "field": "firstName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "lastName": {
+                    "allowNull": false,
+                    "min": [
+                        10,
+                        "Last Name Must not be less than 10 characters"
+                    ],
+                    "max": [
+                        100,
+                        "Last Name Must not exceed 100 characters"
+                    ],
+                    "field": "lastName",
+                    "seqType": "Sequelize.STRING"
+                },
+                "pin_password": {
+                    "field": "pin_password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "verified": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "field": "verified",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "loginStatus": {
+                    "defaultValue": {
+                        "value": false
+                    },
+                    "field": "loginStatus",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "deviceId": {
+                    "defaultValue": {
+                        "value": ""
+                    },
+                    "field": "deviceId",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "marchant_otp_verifications": {
+            "tableName": "marchant_otp_verifications",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "marchantId": {
+                    "required": true,
+                    "field": "marchantId",
+                    "seqType": "Sequelize.STRING"
+                },
+                "otp": {
+                    "field": "otp",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created": {
+                    "field": "created",
+                    "seqType": "Sequelize.DATE"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "path": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current.json",
+    "backupPath": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current_bak.json",
+    "exists": true,
+    "revision": 2
+}
