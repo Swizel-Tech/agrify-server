@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 /** New marchant account creation */
 const sign_up = AsyncHandler(async (req, res, next) => {
   try {
+    console.log(req.body);
     const { firstName, lastName, email, phone, deviceId } = req.body;
 
     const findEmail = await Marchant.findOne({
@@ -196,6 +197,7 @@ const marchant_pass = AsyncHandler(async (req, res, next) => {
     res.status(StatusCodes.OK).json({
       success: true,
       message: "Password created Successfully",
+      data: { fndmarId },
     });
   } catch (error) {
     return next(
@@ -206,8 +208,42 @@ const marchant_pass = AsyncHandler(async (req, res, next) => {
     );
   }
 });
+
+// Get account
+const get_account = AsyncHandler(async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    if (!userId) {
+      return next(
+        new ErrorHandler(`User Id Not Provided`, StatusCodes.BAD_REQUEST)
+      );
+    }
+
+    const user = await Marchant.findByPk(userId);
+
+    if (!user) {
+      return next(
+        new ErrorHandler(`Account not found`, StatusCodes.BAD_REQUEST)
+      );
+    }
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Account retrived Successfully!`,
+      data: { user },
+    });
+  } catch (error) {
+    return next(
+      new ErrorHandler(
+        "failed to get user account",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      )
+    );
+  }
+});
 module.exports = {
   sign_up,
   verify_otp,
   marchant_pass,
+  get_account,
 };

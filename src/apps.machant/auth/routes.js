@@ -1,5 +1,10 @@
 const { Router } = require("express");
-const { sign_up, verify_otp, marchant_pass } = require("./controls.js");
+const {
+  sign_up,
+  verify_otp,
+  marchant_pass,
+  get_account,
+} = require("./controls.js");
 
 const api = Router();
 
@@ -11,5 +16,7 @@ module.exports = () => {
   api.post("/verify_otp", verify_otp);
   api.post("/marchant_pass", marchant_pass);
 
+  /**get Marchant Account */
+  api.get("/get_account/:id", get_account);
   return api;
 };
