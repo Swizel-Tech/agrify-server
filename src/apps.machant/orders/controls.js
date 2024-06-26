@@ -25,9 +25,9 @@ const get_previous_sales = AsyncHandler(async (req, res, next) => {
             { model: ProductPrice, as: "pricings" },
             { model: Marchant, as: "owner" },
           ],
-          distinct: true,
         },
       ],
+      distinct: true,
     });
 
     res
@@ -48,10 +48,19 @@ const get_previous_sales = AsyncHandler(async (req, res, next) => {
 const get_pending_order = AsyncHandler(async (req, res, next) => {
   try {
     const marchantId = req.params.marchantId;
-
     const completed_sales = await Orders.findAndCountAll({
       where: { marchantId, status: false },
-      include: [{ model: Product, as: "product" }],
+      include: [
+        {
+          model: Product,
+          as: "product",
+          include: [
+            { model: ProductImage, as: "images" },
+            { model: ProductPrice, as: "pricings" },
+            { model: Marchant, as: "owner" },
+          ],
+        },
+      ],
       distinct: true,
     });
 
@@ -104,8 +113,44 @@ const get_all_order = AsyncHandler(async (req, res, next) => {
   }
 });
 
+// get an order
+const get_order = AsyncHandler(async (req, res, next) => {
+  try {
+    const id = req.params.orderId;
+
+    const completed_sales = await Orders.findOne({
+      where: { id },
+      include: [
+        {
+          model: Product,
+          as: "product",
+          include: [
+            { model: ProductImage, as: "images" },
+            { model: ProductPrice, as: "pricings" },
+            { model: Marchant, as: "owner" },
+          ],
+        },
+      ],
+      distinct: true,
+    });
+
+    res
+      .status(201)
+      .json({ message: "Order retrieved successfully", completed_sales });
+  } catch (error) {
+    console.log(error);
+    return next(
+      new ErrorHandler(
+        "Failed to retrieve Order.",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      )
+    );
+  }
+});
+
 module.exports = {
   get_previous_sales,
   get_pending_order,
   get_all_order,
+  get_order,
 };

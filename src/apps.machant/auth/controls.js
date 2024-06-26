@@ -241,9 +241,35 @@ const get_account = AsyncHandler(async (req, res, next) => {
     );
   }
 });
+
+// Check device Id
+const checkdevice = AsyncHandler(async (req, res, next) => {
+  try {
+    const deviceId = req.params.deviceId;
+    const device = await Marchant.findOne({
+      where: {
+        deviceId,
+      },
+    });
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: `Device Id retrived Successfully!`,
+      data: { device },
+    });
+  } catch (error) {
+    return next(
+      new ErrorHandler(
+        "failed fetch device ID",
+        StatusCodes.INTERNAL_SERVER_ERROR
+      )
+    );
+  }
+});
+
 module.exports = {
   sign_up,
   verify_otp,
   marchant_pass,
   get_account,
+  checkdevice,
 };

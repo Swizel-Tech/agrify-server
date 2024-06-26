@@ -4,7 +4,7 @@ dotenv.config();
 
 module.exports = (sequelize, DataTypes) => {
   const schema = sequelize.define(
-    "product_category",
+    "categories",
     {
       id: {
         type: DataTypes.UUID,

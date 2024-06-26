@@ -4,6 +4,7 @@ const {
   verify_otp,
   marchant_pass,
   get_account,
+  checkdevice,
 } = require("./controls.js");
 
 const api = Router();
@@ -18,5 +19,8 @@ module.exports = () => {
 
   /**get Marchant Account */
   api.get("/get_account/:id", get_account);
+
+  /**get Marchant Account */
+  api.get("/checkdevice/:deviceId", checkdevice);
   return api;
 };
