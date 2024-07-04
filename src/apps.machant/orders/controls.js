@@ -11,6 +11,7 @@ const { StatusCodes } = require("http-status-codes");
 
 // get completed orderss
 const get_previous_sales = AsyncHandler(async (req, res, next) => {
+  console.log("Hello");
   try {
     const marchantId = req.params.marchantId;
 

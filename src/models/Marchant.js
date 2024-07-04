@@ -48,6 +48,9 @@ module.exports = (sequelize, DataTypes) => {
       pin_password: {
         type: DataTypes.STRING,
       },
+      location: {
+        type: DataTypes.STRING,
+      },
       verified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

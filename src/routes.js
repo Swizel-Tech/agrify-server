@@ -4,6 +4,7 @@ const ProductRoute = require("./apps.machant/product/routes.js");
 const marchantOrderRoute = require("./apps.machant/orders/routes.js");
 const adminProductRoute = require("./apps.admin/product/routes.js");
 const customerProductRoute = require("./apps.customer/orders/routes.js");
+const paymentRoute = require("./apps.machant/payment/routes.js");
 
 // Exposes the express router binding
 const router = express();
@@ -14,5 +15,6 @@ router.use("/api/product", ProductRoute());
 router.use("/api/marchant_order", marchantOrderRoute());
 router.use("/api/admin_product", adminProductRoute());
 router.use("/api/customer", customerProductRoute());
+router.use("/api/marchant/acc", paymentRoute());
 
 module.exports = router;
