@@ -4,23 +4,23 @@ dotenv.config();
 
 module.exports = (sequelize, DataTypes) => {
   const schema = sequelize.define(
-    "product",
+    "bank_account",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: () => uuidv4(),
         primaryKey: true,
       },
-      category: {
+      acc_number: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      productName: {
+      acc_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      currentQuantity: {
-        type: DataTypes.INTEGER,
+      bank: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       marchantId: {
@@ -36,16 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "marchantId",
       as: "owner",
       allowNull: true,
-    });
-
-    schema.hasMany(models.ProductPrice, {
-      foreignKey: "productId",
-      as: "pricings",
-    });
-
-    schema.hasMany(models.ProductImage, {
-      foreignKey: "productId",
-      as: "images",
     });
   };
 

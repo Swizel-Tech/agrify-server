@@ -3,6 +3,8 @@ const {
   ProductImage,
   ProductPrice,
   Marchant,
+  ProductCategory,
+  ProductName,
 } = require("../../models/index.js");
 const AsyncHandler = require("../../utils/asyncHandler");
 const ErrorHandler = require("../../utils/customError");
@@ -13,7 +15,6 @@ const new_product = AsyncHandler(async (req, res, next) => {
   try {
     const { category, currentQuantity, images, pricing, productName } =
       req.body;
-
     if ((!category, !currentQuantity, !images, !pricing, !productName)) {
       return next(
         new ErrorHandler(`Required fields Missing`, StatusCodes.BAD_REQUEST)
@@ -22,7 +23,7 @@ const new_product = AsyncHandler(async (req, res, next) => {
 
     // Step 1: Create the product
     const newProduct = await Product.create({
-      marchantId: "4b47ab2b-cb4e-48f2-9013-a6228a6ff199",
+      marchantId: "087a8b59-6f41-4d27-8ce3-f6c603294829",
       category,
       currentQuantity,
       productName,
@@ -55,6 +56,7 @@ const new_product = AsyncHandler(async (req, res, next) => {
       .status(201)
       .json({ message: "Product created successfully", newProduct });
   } catch (error) {
+    console.log(error);
     return next(
       new ErrorHandler(
         "New Product creation failed.",
@@ -67,7 +69,7 @@ const new_product = AsyncHandler(async (req, res, next) => {
 // Get Product
 const get_product = AsyncHandler(async (req, res, next) => {
   try {
-    const user = "4b47ab2b-cb4e-48f2-9013-a6228a6ff199";
+    const user = "087a8b59-6f41-4d27-8ce3-f6c603294829";
     const allproduct = await Product.findAndCountAll({
       where: {
         marchantId: user,
@@ -77,8 +79,43 @@ const get_product = AsyncHandler(async (req, res, next) => {
         { model: ProductPrice, as: "pricings" },
         { model: Marchant, as: "owner" },
       ],
+      distinct: true,
+      // col: "Product.id",
     });
     res.status(StatusCodes.OK).json({ success: true, data: { allproduct } });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// get all category
+const get_categories = AsyncHandler(async (req, res, next) => {
+  try {
+    const allcat = await ProductCategory.findAndCountAll();
+    res.status(StatusCodes.OK).json({ success: true, data: { allcat } });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// get all product name
+const get_allproductname = AsyncHandler(async (req, res, next) => {
+  try {
+    const categoryName = req.params.catnae;
+    // Find category in DB
+    const category = await ProductCategory.findOne({
+      where: { name: categoryName },
+    });
+
+    if (!category) {
+      return next(
+        new ErrorHandler(`Category Does not Exist`, StatusCodes.BAD_REQUEST)
+      );
+    }
+    const cate = await ProductName.findAndCountAll({
+      where: { categoryId: category.id },
+    });
+    res.status(StatusCodes.OK).json({ success: true, data: { cate } });
   } catch (error) {
     console.log(error);
   }
@@ -87,4 +124,6 @@ const get_product = AsyncHandler(async (req, res, next) => {
 module.exports = {
   new_product,
   get_product,
+  get_categories,
+  get_allproductname,
 };

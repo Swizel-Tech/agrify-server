@@ -1,5 +1,144 @@
 {
     "tables": {
+        "action_logs": {
+            "tableName": "action_logs",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "userId": {
+                    "allowNull": false,
+                    "field": "userId",
+                    "seqType": "Sequelize.STRING"
+                },
+                "action": {
+                    "allowNull": true,
+                    "field": "action",
+                    "seqType": "Sequelize.STRING"
+                },
+                "data": {
+                    "allowNull": true,
+                    "field": "data",
+                    "seqType": "Sequelize.TEXT"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "api_logs": {
+            "tableName": "api_logs",
+            "schema": {
+                "id": {
+                    "defaultValue": {
+                        "internal": true,
+                        "value": "Sequelize.UUIDV4"
+                    },
+                    "primaryKey": true,
+                    "unique": true,
+                    "allowNull": false,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "title": {
+                    "allowNull": false,
+                    "field": "title",
+                    "seqType": "Sequelize.STRING"
+                },
+                "provider": {
+                    "allowNull": true,
+                    "field": "provider",
+                    "seqType": "Sequelize.STRING"
+                },
+                "data": {
+                    "allowNull": true,
+                    "field": "data",
+                    "seqType": "Sequelize.JSON"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deletedAt": {
+                    "field": "deletedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "bank_accounts": {
+            "tableName": "bank_accounts",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "acc_number": {
+                    "allowNull": false,
+                    "field": "acc_number",
+                    "seqType": "Sequelize.STRING"
+                },
+                "acc_name": {
+                    "allowNull": false,
+                    "field": "acc_name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "bank": {
+                    "allowNull": false,
+                    "field": "bank",
+                    "seqType": "Sequelize.STRING"
+                },
+                "marchantId": {
+                    "allowNull": true,
+                    "field": "marchantId",
+                    "references": {
+                        "model": "marchants",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
         "marchants": {
             "tableName": "marchants",
             "schema": {
@@ -48,6 +187,10 @@
                     "field": "pin_password",
                     "seqType": "Sequelize.STRING"
                 },
+                "location": {
+                    "field": "location",
+                    "seqType": "Sequelize.STRING"
+                },
                 "verified": {
                     "defaultValue": {
                         "value": false
@@ -68,6 +211,64 @@
                     },
                     "field": "deviceId",
                     "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "product_orders": {
+            "tableName": "product_orders",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "qty": {
+                    "allowNull": false,
+                    "field": "qty",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "amount": {
+                    "allowNull": false,
+                    "field": "amount",
+                    "seqType": "Sequelize.DECIMAL(10, 2)"
+                },
+                "status": {
+                    "allowNull": false,
+                    "field": "status",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "productId": {
+                    "allowNull": true,
+                    "field": "productId",
+                    "references": {
+                        "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "marchantId": {
+                    "allowNull": true,
+                    "field": "marchantId",
+                    "references": {
+                        "model": "marchants",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -103,7 +304,7 @@
                 "currentQuantity": {
                     "allowNull": false,
                     "field": "currentQuantity",
-                    "seqType": "Sequelize.STRING"
+                    "seqType": "Sequelize.INTEGER"
                 },
                 "marchantId": {
                     "allowNull": true,
@@ -115,6 +316,32 @@
                     "onDelete": "SET NULL",
                     "onUpdate": "CASCADE",
                     "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "categories": {
+            "tableName": "categories",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING"
                 },
                 "createdAt": {
                     "allowNull": false,
@@ -147,6 +374,43 @@
                     "field": "productId",
                     "references": {
                         "model": "products",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUID"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "productnames": {
+            "tableName": "productnames",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.UUID"
+                },
+                "productname": {
+                    "allowNull": false,
+                    "field": "productname",
+                    "seqType": "Sequelize.STRING"
+                },
+                "categoryId": {
+                    "allowNull": true,
+                    "field": "categoryId",
+                    "references": {
+                        "model": "categories",
                         "key": "id"
                     },
                     "onDelete": "SET NULL",
@@ -246,5 +510,5 @@
     "path": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current.json",
     "backupPath": "C:\\Users\\Raphael\\Documents\\Projects\\myprojects\\agrify\\backend\\src\\migrations\\_current_bak.json",
     "exists": true,
-    "revision": 4
+    "revision": 13
 }

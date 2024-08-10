@@ -16,6 +16,8 @@ const {
   EMAIL_PASSWORD,
   EMAIL_HOST,
   EMAIL_SENDER,
+
+  PAYSTACK_SECRET_KEY,
 } = process.env;
 
 module.exports = {
@@ -39,4 +41,7 @@ module.exports = {
   host: DB_HOST,
   password: DB_PASSWORD,
   dialect: DB_DIALECT || "mysql",
+
+  // Paystack
+  PAYSTACK_SECRET_KEY,
 };
