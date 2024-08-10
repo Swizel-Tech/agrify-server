@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server.js",
     "start:dev": "set NODE_ENV=development && nodemon src/index.js",
     "dev:migrate:up": "set NODE_ENV=production && npx sequelize-cli db:migrate",
     "dev:pm2": "pm2 start src/index.js --name 'agrify' --env production",
