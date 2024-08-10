@@ -15,8 +15,5 @@
   "env": {
     "NODE_ENV": "production",
     "API_KEY": "@api_key"
-  },
-  "static": {
-    "directory": "public"
   }
 }
