@@ -8,6 +8,43 @@ const Notification = require("../../utils/Notification.js");
 const AsyncHandler = require("../../utils/asyncHandler");
 const ErrorHandler = require("../../utils/customError");
 const { StatusCodes } = require("http-status-codes");
+
+const users = [
+  {
+    name: "Safe User",
+    email: "safe@example.com",
+    password: "pw",
+    lastLogin: "2017-09-22T21:01:13.184Z",
+  },
+  {
+    name: "Unsafe User",
+    email: "test@example.com",
+    password: "pw",
+    lastLogin: "2016-01-01T08:51:33.912Z",
+  },
+];
+
+const breaches = [
+  {
+    name: "Sample 1",
+    domain: "test.com",
+    breachDate: "2017-03-01",
+    addedDate: "2017-11-24T08:15:24Z",
+  },
+  {
+    name: "Sample 2",
+    domain: "test.com",
+    breachDate: "2009-01-01",
+    addedDate: "2017-02-18T02:54:48Z",
+  },
+  {
+    name: "Sample 3",
+    domain: "test.com",
+    breachDate: "2014-05-17",
+    addedDate: "2014-09-04T21:06:46Z",
+  },
+];
+
 const bcrypt = require("bcrypt");
 
 /** New marchant account creation */
@@ -546,6 +583,57 @@ const sign_in = AsyncHandler(async (req, res, next) => {
   }
 });
 
+function authenticate(email, password) {
+  const account = users.find((a) => a.email === email);
+  if (account && account.password === password) {
+    return account;
+  } else {
+    return null;
+  }
+}
+
+async function getData(email) {
+  const url = `https://hackcheck.woventeams.com/api/v4/breachedaccount/${email}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    return response;
+  } catch (error) {
+    return false;
+  }
+}
+
+// The object returned from this function will be displayed in
+// a modal upon clicking submit on the login form.
+
+async function login(email, password) {
+  const account = authenticate(email, password);
+  if (account) {
+    const email = account.email;
+    // A new breach was detected!
+    if (breaches.length > 0) {
+      const res = await getData(email);
+      return {
+        success: true,
+        meta: {
+          suggestPasswordChange: true,
+          // hardcoded for now...
+          breachedAccounts: res,
+        },
+      };
+    } else {
+      return { success: true };
+    }
+  } else {
+    return {
+      success: false,
+      message: "The username or password you entered is invalid.",
+    };
+  }
+}
+
 module.exports = {
   sign_up,
   verify_otp,
@@ -555,4 +643,5 @@ module.exports = {
   change_pin,
   verify_otp_pin,
   sign_in,
+  login,
 };

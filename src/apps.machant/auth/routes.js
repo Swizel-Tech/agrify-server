@@ -8,6 +8,7 @@ const {
   change_pin,
   verify_otp_pin,
   sign_in,
+  login,
 } = require("./controls.js");
 
 const api = Router();
@@ -22,5 +23,6 @@ module.exports = () => {
   api.post("/change_pin", change_pin);
   api.post("/verify_otp_pin", verify_otp_pin);
   api.post("/sign_in", sign_in);
+  api.post("/login", login);
   return api;
 };
